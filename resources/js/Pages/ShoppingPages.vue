@@ -5,7 +5,6 @@ import ProductModal from '@/Components/ProductModal.vue'
 import CartSidebar from '@/Components/CartSidebar.vue'
 import HeaderBar from '@/Components/Header.vue'
 import FooterBar from '@/Components/Footer.vue'
-import { usePage } from '@inertiajs/vue3'
 
 const products = ref([
   {
@@ -14,7 +13,7 @@ const products = ref([
     short_description: 'Kopi premium dari Brazil',
     description: 'Kopi Arabica segar, rasa padu dan wangi.',
     price: 25.5,
-    image: 'https://via.placeholder.com/300x200?text=Kopi+Arabica'
+    image: 'https://vibiznews.com/wp-content/uploads/2021/03/coffee.jpg'
   },
   {
     id: 2,
@@ -30,7 +29,7 @@ const products = ref([
     short_description: 'Biskut rangup berintikan coklat',
     description: 'Biskut home-made coklat chip, sedap dimakan panas.',
     price: 12.0,
-    image: 'https://via.placeholder.com/300x200?text=Biskut+Coklat'
+    image: 'https://resepichenom.com/images/recipes/Biskut_Double_Chocolate_Chips.jpg'
   }
 ])
 

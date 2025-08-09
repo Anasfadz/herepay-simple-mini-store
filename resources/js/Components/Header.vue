@@ -1,6 +1,10 @@
 <script setup>
+import { Head, Link } from '@inertiajs/vue3'
+
 const props = defineProps({
-  cartCount: { type: Number, default: 0 }
+  cartCount: { type: Number, default: 0 },
+  canLogin: { type: Boolean, default: false },
+  canRegister: { type: Boolean, default: false },
 })
 const emit = defineEmits(['toggle-cart'])
 </script>
@@ -13,6 +17,7 @@ const emit = defineEmits(['toggle-cart'])
       </div>
 
       <div class="flex items-center gap-4">
+        <!-- CART ICON -->
         <button @click="$emit('toggle-cart')" class="relative">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -22,8 +27,11 @@ const emit = defineEmits(['toggle-cart'])
             {{ cartCount }}
           </span>
         </button>
-        <a href="#" class="hover:text-indigo-600">Login</a>
-        <a href="#" class="hover:text-indigo-600">Register</a>
+
+        <!-- <a href="/login" class="hover:text-indigo-600">Login</a>
+        <a href="/register" class="hover:text-indigo-600">Register</a> -->
+
+        <a href="/login" class="hover:text-indigo-600">👤</a>
       </div>
     </div>
   </header>
