@@ -15,10 +15,24 @@ function remove(id) { emit('remove', id) }
 function changeQty(id, e) { emit('update-qty', id, Number(e.target.value)) }
 function checkout() {
   const ids = props.items.map(item => item.id)
-  const quantity = props.items.map(item => item.qty)
-  console.log('Item IDs:', ids)
-  console.log(quantity)
-  console.log('Subtotal:', props.subtotal)
+  const quantities = props.items.map(item => item.qty)
+
+  axios.post('/api/checkout', {
+    items: items,
+    subtotal: subtotal,
+    quantities:quantities
+  })
+  .then(res => {
+    if (res.data.status === 'success') {
+      alert('Thank you for payment!')
+    } else {
+      alert('Payment failed, please try again.')
+    }
+  })
+  .catch(err => {
+    console.error(err)
+    alert('Something went wrong!')
+  })
 }
 </script>
 

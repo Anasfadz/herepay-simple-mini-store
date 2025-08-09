@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+require __DIR__.'/auth.php';
+
 Route::get('/', function () {
     return Inertia::render('ShoppingPages', [
         'canLogin' => Route::has('login'),
@@ -25,5 +27,3 @@ Route::middleware('auth')->group(function () {
     Route::get('/product/list' , [ProductController::class, 'index'])->name('product.index');
     Route::get('/orders/list' , [ProductController::class, 'index'])->name('orders.index');
 });
-
-require __DIR__.'/auth.php';
