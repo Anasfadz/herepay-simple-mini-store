@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
-use Illuminate\Http\Client\Request;
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class ProductController extends Controller
 {
@@ -19,34 +20,50 @@ class ProductController extends Controller
         return response()->json($product);
     }
 
-    public function checkout(Request $request)
+    public function store(Request $request)
     {
-        // Validasi data
-        $request->validate([
-            'items' => 'required|array',
-            'items.*.id' => 'required|integer|exists:products,id',
-            'items.*.qty' => 'required|integer|min:1',
-            'subtotal' => 'required|numeric|min:0'
+        $validated = $request->validate([
+            'sku' => 'required|string|unique:products,sku',
+            'name' => 'required|string',
+            'short_description' => 'required|string',
+            'description' => 'nullable|string',
+            'price' => 'required|numeric|min:0',
+            'image' => 'nullable|string',
+            'variants' => 'nullable|array',
+            'quantity' => 'required|integer',
         ]);
 
-        foreach ($request->items as $item) {
-            $product = Product::find($item['id']);
+        $product = Product::create($validated);
 
-            if ($product->quantity < $item['qty']) {
-                return response()->json([
-                    'status' => 'error',
-                    'message' => "Not enough stock for {$product->name}"
-                ], 400);
-            }
+        return response()->json($product, 201);
+    }
 
-            $product->quantity -= $item['qty'];
-            $product->save();
-        }
+    public function update(Request $request, $id)
+    {
+        $product = Product::findOrFail($id);
 
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Payment successful and stock deducted'
+        $validated = $request->validate([
+            'sku' => ['required', 'string', Rule::unique('products')->ignore($product->id)],
+            'name' => 'required|string',
+            'short_description' => 'required|string',
+            'description' => 'nullable|string',
+            'price' => 'required|numeric|min:0',
+            'image' => 'nullable|string',
+            'variants' => 'nullable|array',
+            'quantity' => 'required|integer|min:0',
         ]);
+
+        $product->update($validated);
+
+        return response()->json($product);
+    }
+
+    public function destroy($id)
+    {
+        $product = Product::findOrFail($id);
+        $product->delete();
+
+        return response()->json(null, 204);
     }
 }
 
