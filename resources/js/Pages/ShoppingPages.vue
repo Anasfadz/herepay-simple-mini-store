@@ -1,37 +1,31 @@
 <script setup>
-import { ref, computed } from 'vue'
 import ProductCard from '@/Components/ProductCard.vue'
 import ProductModal from '@/Components/ProductModal.vue'
 import CartSidebar from '@/Components/CartSidebar.vue'
 import HeaderBar from '@/Components/Header.vue'
 import FooterBar from '@/Components/Footer.vue'
+import { ref, computed, onMounted } from 'vue'
 
-const products = ref([
-  {
-    id: 1,
-    name: 'Kopi Arabica',
-    short_description: 'Kopi premium dari Brazil',
-    description: 'Kopi Arabica segar, rasa padu dan wangi.',
-    price: 25.5,
-    image: 'https://vibiznews.com/wp-content/uploads/2021/03/coffee.jpg'
-  },
-  {
-    id: 2,
-    name: 'Teh Hijau Jepun',
-    short_description: 'Matcha organik',
-    description: 'Teh hijau matcha asli dari Kyoto.',
-    price: 18.0,
-    image: 'https://res.cloudinary.com/dk0z4ums3/image/upload/v1617593508/attached_image/memetik-manfaat-teh-hijau-untuk-kesehatan.jpg'
-  },
-  {
-    id: 3,
-    name: 'Biskut Coklat',
-    short_description: 'Biskut rangup berintikan coklat',
-    description: 'Biskut home-made coklat chip, sedap dimakan panas.',
-    price: 12.0,
-    image: 'https://resepichenom.com/images/recipes/Biskut_Double_Chocolate_Chips.jpg'
+const products = ref([])
+
+onMounted(async () => {
+  try {
+    const res = await fetch('http://localhost:8000/api/products')
+    const data = await res.json()
+
+    // Map API data ke format yang kau nak
+    products.value = data.map(item => ({
+      id: item.id,
+      name: item.name,
+      short_description: item.short_description,
+      description: item.description,
+      price: parseFloat(item.price), // convert string ke number
+      image: item.image
+    }))
+  } catch (err) {
+    console.error('Error fetch products:', err)
   }
-])
+})
 
 const selected = ref(null)
 const showModal = ref(false)

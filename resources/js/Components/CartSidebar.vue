@@ -15,7 +15,9 @@ function remove(id) { emit('remove', id) }
 function changeQty(id, e) { emit('update-qty', id, Number(e.target.value)) }
 function checkout() {
   const ids = props.items.map(item => item.id)
+  const quantity = props.items.map(item => item.qty)
   console.log('Item IDs:', ids)
+  console.log(quantity)
   console.log('Subtotal:', props.subtotal)
 }
 </script>

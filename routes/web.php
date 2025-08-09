@@ -7,13 +7,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-// Route::get('/', function () {
-//     return Inertia::render('ShoppingPages', [
-//         'isLoggedIn' => Auth::check(),
-//     'userName' => Auth::check() ? Auth::user()->name : '',
-//     ]);
-// });
-
 Route::get('/', function () {
     return Inertia::render('ShoppingPages', [
         'canLogin' => Route::has('login'),
