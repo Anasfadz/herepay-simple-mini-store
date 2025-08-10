@@ -7,10 +7,11 @@ import FooterBar from '@/Components/Footer.vue'
 import { ref, computed, onMounted } from 'vue'
 
 const products = ref([])
+const API_URL = import.meta.env.VITE_API_URL
 
 onMounted(async () => {
   try {
-    const res = await fetch('http://localhost:8000/api/products')
+    const res = await fetch(`${API_URL}products`)
     const data = await res.json()
 
     // Map API data ke format yang kau nak

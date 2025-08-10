@@ -6,6 +6,7 @@ const props = defineProps({
   subtotal: Number 
 })
 const emit = defineEmits(['close','remove','update-qty'])
+const API_URL = import.meta.env.VITE_API_URL
 watch(() => props.open, (v) => {
   if (v) document.body.style.overflow = 'hidden'
   else document.body.style.overflow = ''
@@ -17,7 +18,7 @@ function checkout() {
   var ids = props.items.map(item => item.id)
   var quantities = props.items.map(item => item.qty)
 
-  axios.post('api/payment', {
+  axios.post(`${API_URL}payment`, {
     items: ids,
     subtotal: props.subtotal,
     quantities: quantities
