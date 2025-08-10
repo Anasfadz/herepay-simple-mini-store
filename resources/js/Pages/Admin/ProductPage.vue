@@ -5,6 +5,7 @@ import { Head } from '@inertiajs/vue3'
 import axios from 'axios'
 
 const products = ref([])
+const API_URL = import.meta.env.VITE_API_URL
 
 const showModal = ref(false)
 const isEditMode = ref(false)
@@ -21,7 +22,7 @@ const form = reactive({
 
 onMounted(async () => {
   try {
-    const res = await fetch('http://localhost:8000/api/products')
+    const res = await fetch(`${API_URL}products`)
     const data = await res.json()
 
     products.value = data.map(item => ({
@@ -91,7 +92,7 @@ async function saveProduct() {
 
   try {
     if (isEditMode.value) {
-      const res = await axios.put(`http://localhost:8000/api/products/${form.id}`, {
+      const res = await axios.put(`${API_URL}products/${form.id}`, {
         sku: form.sku,
         name: form.name,
         short_description: form.short_description,
@@ -111,7 +112,7 @@ async function saveProduct() {
 
       alert('Produk berjaya dikemaskini')
     } else {
-      const res = await axios.post('http://localhost:8000/api/products', {
+      const res = await axios.post(`${API_URL}products`, {
         sku: form.sku,
         name: form.name,
         short_description: form.short_description,
