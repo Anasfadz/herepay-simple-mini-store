@@ -113,6 +113,7 @@ const subtotal = computed(() =>
       @close="cartOpen = false"
       @remove="removeFromCart"
       @update-qty="updateQty"
+      @clear-cart="cart = []" 
     />
   </div>
 </template>

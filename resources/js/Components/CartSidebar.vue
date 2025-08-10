@@ -14,16 +14,18 @@ function close() { emit('close') }
 function remove(id) { emit('remove', id) }
 function changeQty(id, e) { emit('update-qty', id, Number(e.target.value)) }
 function checkout() {
-  const ids = props.items.map(item => item.id)
-  const quantities = props.items.map(item => item.qty)
+  var ids = props.items.map(item => item.id)
+  var quantities = props.items.map(item => item.qty)
 
-  axios.post('/api/checkout', {
-    items: items,
-    subtotal: subtotal,
-    quantities:quantities
+  axios.post('api/payment', {
+    items: ids,
+    subtotal: props.subtotal,
+    quantities: quantities
   })
   .then(res => {
-    if (res.data.status === 'success') {
+    if (res.data.status) {
+      console.log(res.data)
+      emit('clear-cart')
       alert('Thank you for payment!')
     } else {
       alert('Payment failed, please try again.')

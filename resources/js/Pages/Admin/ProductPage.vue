@@ -107,6 +107,8 @@ async function saveProduct() {
         products.value[idx] = res.data
       }
 
+      console.log(res.data)
+
       alert('Produk berjaya dikemaskini')
     } else {
       const res = await axios.post('http://localhost:8000/api/products', {
